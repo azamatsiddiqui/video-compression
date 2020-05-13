@@ -638,7 +638,7 @@ def reconstruct(binfile, outfile):
             #x = Image.fromarray(x.astype(np.uint8))
             count += 1
             if count%skipper == 0:
-                for i in range(skipper):
+                for i in range(skipper-1):
                     h = (x+temp[count-2])/2
                     h = signal.resample_poly(h,up,1,axis=0,padtype='mean')
                     h = signal.resample_poly(h,up,1,axis=1,padtype='mean')
