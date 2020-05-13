@@ -653,7 +653,7 @@ def reconstruct(binfile, outfile):
         rec_fname = "frame_{:02d}.tiff".format(i+1)
         im_.save(rec_fname,save_all=True)
     #recon[0].save(outfile,save_all=True, append_images=recon[1:])
-    GIF_save(path = '', framerate = 6)
+    GIF_save(path = '', framerate = rate)
     
     
     
