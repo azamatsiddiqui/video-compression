@@ -603,6 +603,7 @@ def reconstruct(binfile, outfile):
         recon = []#np.zeros(2,M,N,3)
         temp = []
         quality = int.from_bytes(fh.read(2), "big")
+        skipper = int.from_bytes(fh.read(2), "big")
         rate = int.from_bytes(fh.read(2), "big")
         SOI = fh.read(2)
         count = 0
@@ -636,11 +637,12 @@ def reconstruct(binfile, outfile):
             temp.append(x)
             #x = Image.fromarray(x.astype(np.uint8))
             count += 1
-#             if count%2 == 0:
-#                 h = (x+temp[count-2])/2
-#                 h = signal.resample_poly(h,up,1,axis=0,padtype='mean')
-#                 h = signal.resample_poly(h,up,1,axis=1,padtype='mean')
-#                 recon.append(Image.fromarray(h.astype(np.uint8)))
+            if count%skipper == 0:
+                for i in range(skipper):
+                    h = (x+temp[count-2])/2
+                    h = signal.resample_poly(h,up,1,axis=0,padtype='mean')
+                    h = signal.resample_poly(h,up,1,axis=1,padtype='mean')
+                    recon.append(Image.fromarray(h.astype(np.uint8)))
             x = signal.resample_poly(x,up,1,axis=0,padtype='mean')
             x = signal.resample_poly(x,up,1,axis=1,padtype='mean')
             recon.append(Image.fromarray(x.astype(np.uint8))) #Image.fromarray(np_im)
