@@ -606,7 +606,7 @@ def reconstruct(binfile, outfile):
         rate = int.from_bytes(fh.read(2), "big")
         SOI = fh.read(2)
         count = 0
-        up = 2
+        up = 4
         while SOI != bytes.fromhex("FFD2"):
             if SOI != bytes.fromhex("FFD8"):
                 raise Exception("Start of Image marker not found!")
@@ -636,11 +636,11 @@ def reconstruct(binfile, outfile):
             temp.append(x)
             #x = Image.fromarray(x.astype(np.uint8))
             count += 1
-            if count%2 == 0:
-                h = (x+temp[count-2])/2
-                h = signal.resample_poly(h,up,1,axis=0,padtype='mean')
-                h = signal.resample_poly(h,up,1,axis=1,padtype='mean')
-                recon.append(Image.fromarray(h.astype(np.uint8)))
+#             if count%2 == 0:
+#                 h = (x+temp[count-2])/2
+#                 h = signal.resample_poly(h,up,1,axis=0,padtype='mean')
+#                 h = signal.resample_poly(h,up,1,axis=1,padtype='mean')
+#                 recon.append(Image.fromarray(h.astype(np.uint8)))
             x = signal.resample_poly(x,up,1,axis=0,padtype='mean')
             x = signal.resample_poly(x,up,1,axis=1,padtype='mean')
             recon.append(Image.fromarray(x.astype(np.uint8))) #Image.fromarray(np_im)
@@ -650,10 +650,10 @@ def reconstruct(binfile, outfile):
     # signal.resample_poly(Y, up, 1, padtype='mean')
     for i in range(len(recon)):
         im_ = recon[i]
-        rec_fname = "frame_{:02d}.tiff".format(i)
+        rec_fname = "frame_{:02d}.tiff".format(i+1)
         im_.save(rec_fname,save_all=True)
     #recon[0].save(outfile,save_all=True, append_images=recon[1:])
-    GIF_save(path = '', framerate = rate)
+    GIF_save(path = '', framerate = 6)
     
     
     
