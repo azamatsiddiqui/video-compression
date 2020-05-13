@@ -600,6 +600,7 @@ def reconstruct(binfile, outfile):
             raise Exception("Start of File marker not found!")
         M = int.from_bytes(fh.read(2), "big")
         N = int.from_bytes(fh.read(2), "big")
+        rate = int.from_bytes(fh.read(2), "big")
         recon = []#np.zeros(2,M,N,3)
         temp = []
         quality = int.from_bytes(fh.read(2), "big")
@@ -652,7 +653,7 @@ def reconstruct(binfile, outfile):
         rec_fname = "frame_{:02d}.tiff".format(i)
         im_.save(rec_fname,save_all=True)
     #recon[0].save(outfile,save_all=True, append_images=recon[1:])
-    GIF_save(path = '', framerate = 12)
+    GIF_save(path = '', framerate = rate)
     
     
     
