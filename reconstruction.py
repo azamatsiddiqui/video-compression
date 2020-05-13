@@ -600,10 +600,10 @@ def reconstruct(binfile, outfile):
             raise Exception("Start of File marker not found!")
         M = int.from_bytes(fh.read(2), "big")
         N = int.from_bytes(fh.read(2), "big")
-        rate = int.from_bytes(fh.read(2), "big")
         recon = []#np.zeros(2,M,N,3)
         temp = []
         quality = int.from_bytes(fh.read(2), "big")
+        rate = int.from_bytes(fh.read(2), "big")
         SOI = fh.read(2)
         count = 0
         up = 2
